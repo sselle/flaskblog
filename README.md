@@ -4,3 +4,4 @@ toy project to play arround with Flask. Based on [this](https://blog.miguelgrinb
 
 # Implemented features
 
+- Templates (and template inheritance)
