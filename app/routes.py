@@ -1,12 +1,14 @@
-# first app = the module 
-# second app = instance of Flask created in __init__.py
-from flask import render_template, flash, redirect
+from flask import render_template, flash, redirect, request
 from flask.helpers import url_for
-from app import app
+from flask_login import current_user, login_user, logout_user, login_required
+from werkzeug.urls import url_fix, url_parse
+from app import app # first app = the module, second app = instance of Flask created in __init__.py
 from app.forms import LoginForm
+from app.models import User
 
 @app.route('/')
 @app.route('/index')
+@login_required
 def index():
     # fake user 'db'
     user = {'username': 'Sven'}
@@ -21,13 +23,30 @@ def index():
             'body': 'It is sunny outside'
         },
     ]
-    return render_template('index.html', title='Home', 
-                            user=user, posts=posts)
+    return render_template('index.html', title='Home', posts=posts)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect( url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password')
+            return redirect( url_for('login'))
+        # check succesful, login user
+        login_user(user, remember=form.remember_me.data)
+        next_page = request.args.get('next')
+        # werkzeug url_parse to prevent attacks by routing to another URL through next
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page = url_for('index')
+        return redirect(next_page)
         flash(f'Login requested for user {form.username.data}, remember_me={form.remember_me.data}')
         return redirect( url_for('index'))
     return render_template('login.html', title='Sign in', form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
