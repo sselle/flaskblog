@@ -5,6 +5,7 @@ toy project to play arround with Flask. Based on [this](https://blog.miguelgrinb
 # Implemented features
 
 - Templates (and template inheritance)
+- Jinja2 templates and subtemplates
 - Web Forms (WTForms)
 - DB support (flask db, flask migration)
 - Validators (email, password match, ...)
