@@ -16,3 +16,54 @@ Traceback (most recent call last):
     return type.__call__(cls, *args, **kwargs)
 TypeError: __init__() missing 1 required positional argument: 'original_username'
 2022-01-08 16:47:32,963 INFO: Microblog startup [in /Users/s.selle/code/flaskblog/app/__init__.py:32]
+2022-01-09 10:24:15,723 INFO: Microblog startup [in /Users/s.selle/code/flaskblog/app/__init__.py:32]
+2022-01-09 10:39:20,723 INFO: Microblog startup [in /Users/s.selle/code/flaskblog/app/__init__.py:32]
+2022-01-09 10:39:31,501 INFO: Microblog startup [in /Users/s.selle/code/flaskblog/app/__init__.py:32]
+2022-01-09 10:46:20,923 INFO: Microblog startup [in /Users/s.selle/code/flaskblog/app/__init__.py:32]
+2022-01-09 10:46:32,743 ERROR: Exception on /login [POST] [in /Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/flask/app.py", line 1502, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/Users/s.selle/code/flaskblog/app/routes.py", line 39, in login
+    user = User.query.filter_by(username=form.username.data).first()
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/flask_sqlalchemy/__init__.py", line 550, in __get__
+    mapper = orm.class_mapper(type)
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/sqlalchemy/orm/base.py", line 442, in class_mapper
+    mapper = _inspect_mapped_class(class_, configure=configure)
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/sqlalchemy/orm/base.py", line 421, in _inspect_mapped_class
+    mapper._check_configure()
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/sqlalchemy/orm/mapper.py", line 1916, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/sqlalchemy/orm/mapper.py", line 3429, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/sqlalchemy/orm/mapper.py", line 3468, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/sqlalchemy/orm/mapper.py", line 1933, in _post_configure_properties
+    prop.init()
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/sqlalchemy/orm/interfaces.py", line 231, in init
+    self.do_init()
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/sqlalchemy/orm/relationships.py", line 2155, in do_init
+    self._generate_backref()
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/sqlalchemy/orm/relationships.py", line 2488, in _generate_backref
+    mapper._configure_property(backref_key, relationship)
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/sqlalchemy/orm/mapper.py", line 1825, in _configure_property
+    prop.init()
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/sqlalchemy/orm/interfaces.py", line 231, in init
+    self.do_init()
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/sqlalchemy/orm/relationships.py", line 2157, in do_init
+    super(RelationshipProperty, self).do_init()
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/sqlalchemy/orm/interfaces.py", line 671, in do_init
+    self.strategy = self._get_strategy(self.strategy_key)
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/sqlalchemy/orm/interfaces.py", line 633, in _get_strategy
+    cls = self._strategy_lookup(self, *key)
+  File "/Users/s.selle/code/flaskblog/venv/lib/python3.8/site-packages/sqlalchemy/orm/interfaces.py", line 717, in _strategy_lookup
+    raise orm_exc.LoaderStrategyException(
+sqlalchemy.orm.exc.LoaderStrategyException: Can't find strategy (('lazy', 'dynmaic'),) for User.followers
+2022-01-09 14:43:22,535 INFO: Microblog startup [in /Users/s.selle/code/flaskblog/app/__init__.py:32]
+2022-01-09 14:43:52,012 INFO: Microblog startup [in /Users/s.selle/code/flaskblog/app/__init__.py:32]
