@@ -7,12 +7,19 @@ from flask_login import UserMixin
 
 from app import db, login
 
+<<<<<<< HEAD
+followers = db.Table('followers',
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
+)
+=======
 # auxiliary table for the n:n relationship users following users
 # not a class, becase it has no attributes besides the two FKs
 followers = db.Table('followers',
                     db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
                     db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
                     )
+>>>>>>> main
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -28,6 +35,12 @@ class User(UserMixin, db.Model):
                                 backref=db.backref('followers', lazy='dynamic'),
                                 lazy = 'dynamic')
 
+    followed = db.relationship(
+        'User', secondary=followers,
+        primaryjoin=(followers.c.follower_id == id),
+        secondaryjoin=(followers.c.followed_id == id),
+        backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
+
     def __repr__(self):
         return f'<User {self.username}>'
 
@@ -41,7 +54,10 @@ class User(UserMixin, db.Model):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return f'https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}'
 
+<<<<<<< HEAD
+=======
     #functions to follow
+>>>>>>> main
     def follow(self, user):
         if not self.is_following(user):
             self.followed.append(user)
@@ -55,11 +71,17 @@ class User(UserMixin, db.Model):
             followers.c.followed_id == user.id).count() > 0
 
     def followed_posts(self):
+<<<<<<< HEAD
+        followed = Post.query.join(
+            followers, (followers.c.followed_id == Post.user_id)).filter(
+                followers.c.follower_id == self.id)
+=======
         # get all posts from users followed
         followed = Post.query.join(
             followers, (followers.c.followed_id == Post.user_id)).filter(
                 followers.c.follower_id == self.id)
         # get own posts
+>>>>>>> main
         own = Post.query.filter_by(user_id=self.id)
         return followed.union(own).order_by(Post.timestamp.desc())
 

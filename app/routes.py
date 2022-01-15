@@ -8,27 +8,29 @@ from wtforms.validators import Email
 
 from app import app # first app = the module, second app = instance of Flask created in __init__.py
 from app import db
+<<<<<<< HEAD
+from app.forms import LoginForm, RegisterForm, EditProfileForm, PostForm, EmptyForm
+from app.models import User, Post
+=======
 from app.forms import LoginForm, RegisterForm, EditProfileForm, EmptyForm
 from app.models import User
+>>>>>>> main
 
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    # fake user 'db'
-    user = {'username': 'Sven'}
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(body=form.post.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post is now live!')
+        return redirect(url_for('index'))
     # fake posts 'db'
-    posts = [
-        {
-            'author': {'username': 'John'},
-            'body': 'Nice day in NBG'
-        },
-        {
-            'author': {'username': 'Alice'},
-            'body': 'It is sunny outside'
-        },
-    ]
-    return render_template('index.html', title='Home', posts=posts)
+    posts = current_user.followed_posts().all()
+    return render_template("index.html", title='Home Page', form=form,
+                           posts=posts)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -74,11 +76,15 @@ def register():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
+    form = EmptyForm()
     posts = [
         {'author': user, 'body': 'Test post #1'},
         {'author': user, 'body': 'Test post #2'}
     ]
+<<<<<<< HEAD
+=======
     form = EmptyForm()
+>>>>>>> main
     return render_template('user.html', user=user, posts=posts, form=form)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
@@ -141,4 +147,14 @@ def unfollow(username):
         flash('You are not following {}.'.format(username))
         return redirect(url_for('user', username=username))
     else:
+<<<<<<< HEAD
         return redirect(url_for('index'))
+
+@app.route('/explore')
+@login_required
+def explore():
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    return render_template('index.html', title='Explore', posts=posts)
+=======
+        return redirect(url_for('index'))
+>>>>>>> main
