@@ -8,8 +8,13 @@ from wtforms.validators import Email
 
 from app import app # first app = the module, second app = instance of Flask created in __init__.py
 from app import db
+<<<<<<< HEAD
 from app.forms import LoginForm, RegisterForm, EditProfileForm, PostForm, EmptyForm
 from app.models import User, Post
+=======
+from app.forms import LoginForm, RegisterForm, EditProfileForm, EmptyForm
+from app.models import User
+>>>>>>> main
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -76,12 +81,16 @@ def user(username):
         {'author': user, 'body': 'Test post #1'},
         {'author': user, 'body': 'Test post #2'}
     ]
+<<<<<<< HEAD
+=======
+    form = EmptyForm()
+>>>>>>> main
     return render_template('user.html', user=user, posts=posts, form=form)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
-    form = EditProfileForm()
+    form = EditProfileForm(current_user.username)
     if form.validate_on_submit():
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
@@ -138,6 +147,7 @@ def unfollow(username):
         flash('You are not following {}.'.format(username))
         return redirect(url_for('user', username=username))
     else:
+<<<<<<< HEAD
         return redirect(url_for('index'))
 
 @app.route('/explore')
@@ -145,3 +155,6 @@ def unfollow(username):
 def explore():
     posts = Post.query.order_by(Post.timestamp.desc()).all()
     return render_template('index.html', title='Explore', posts=posts)
+=======
+        return redirect(url_for('index'))
+>>>>>>> main

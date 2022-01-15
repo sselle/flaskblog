@@ -9,3 +9,5 @@ toy project to play arround with Flask. Based on [this](https://blog.miguelgrinb
 - Web Forms (WTForms)
 - DB support (flask db, flask migration)
 - Validators (email, password match, ...)
+- Custom error messages
+- Unit tests
