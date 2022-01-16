@@ -13,3 +13,4 @@ toy project to play arround with Flask. Based on [this](https://blog.miguelgrinb
 - Unit tests
 - Flask mail
 - Threads (async. sending of Mails)
+- CSS Framework (Bootstrap)
